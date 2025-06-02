@@ -23,6 +23,11 @@ def rotation_gate(theta):
 def calculate_weight(solution):
     return sum(weights[i] for i in range(len(solution)) if solution[i])
 
+# Calculate total profit of a solution
+def calculate_profit(solution):
+    return sum(profits[i] for i in range(len(solution)) if solution[i])
+
+
 # GQA iterations
 for generation in range(10): 
     print(f"\nGeneration {generation}:")
@@ -55,7 +60,7 @@ for generation in range(10):
             total_weight -= weights[min_ratio_index]
     
     # Try to add items to improve solution
-    current_profit = sum(profits[i] for i in range(num_items) if candidate_solution[i])
+    current_profit = calculate_profit(candidate_solution)
     remaining_capacity = capacity - total_weight
     
     add_candidates = [(i, profits[i]/weights[i]) 
@@ -73,7 +78,7 @@ for generation in range(10):
                 current_profit += profits[item_index]
     
     # Evaluate profit
-    profit = sum(profits[i] for i in range(num_items) if candidate_solution[i])
+    profit = calculate_profit(candidate_solution)
     if profit > best_profit:
         best_solution, best_profit = candidate_solution.copy(), profit
     
